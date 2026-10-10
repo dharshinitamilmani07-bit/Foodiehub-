@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 ##  Features
 
@@ -98,3 +99,7 @@ http://127.0.0.1:5000
 ##  Project Objective
 
 The main objective of Foodie Hub is to develop a user-friendly food ordering platform that simplifies restaurant discovery, food selection, and order management while providing a modern and attractive user experience.
+=======
+# Foodiehub-
+Foodie Hub is a web-based food ordering and delivery application developed using Python and Flask. It allows users to explore restaurants, browse food menus, search for dishes, add items to their cart, place orders, and manage their profiles through a user-friendly interface.  
+>>>>>>> 5550e00071a6edb0c13c3dc6b1109f7702666667

@@ -1,0 +1,19 @@
+<a class="food-card" href="{{ url_for('food_detail', food_id=f.id) }}">
+    <div class="food-card-img-wrap">
+        <img src="{{ f.image }}" alt="{{ f.name }}" class="food-card-img" loading="lazy">
+        <div class="match-badge">{{ f.match }}% Match</div>
+    </div>
+    <div class="food-card-body">
+        <h4>{{ f.name }}</h4>
+        <p class="food-card-rest">{{ f.restaurant }}</p>
+        <div class="food-card-meta">
+            <span>⭐ {{ f.rating }}</span>
+            <span>⏱ {{ f.prep_time }} min</span>
+            <span>{{ '🟢' if f.veg else '🔴' }}</span>
+        </div>
+        <div class="food-card-foot">
+            <span class="price">₹{{ f.price }}</span>
+            <span class="tag-mini">{{ f.tags[0] }}</span>
+        </div>
+    </div>
+</a>

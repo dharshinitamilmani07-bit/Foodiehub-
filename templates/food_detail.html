@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ food.name }} — Foodie Hub{% endblock %}
+{% block content %}
+<div class="detail-screen">
+    <div class="detail-hero">
+        <img src="{{ food.image }}" alt="{{ food.name }}" class="detail-hero-img">
+        <form method="POST" action="{{ url_for('toggle_favorite', food_id=food.id) }}" class="fav-form">
+            <button type="submit" class="fav-btn {{ 'fav-on' if is_fav else '' }}">{{ '❤️' if is_fav else '🤍' }}</button>
+        </form>
+        <div class="match-badge detail-match">{{ food.match }}% Match</div>
+    </div>
+
+    <div class="detail-body">
+        <h1>{{ food.name }}</h1>
+        <p class="detail-rest"><a href="{{ url_for('restaurant_detail', restaurant_id=food.restaurant_id) }}">{{ food.restaurant }}</a></p>
+
+        <div class="detail-stats">
+            <div><span>⭐</span>{{ food.rating }}</div>
+            <div><span>⏱</span>{{ food.prep_time }} min</div>
+            <div><span>{{ '🟢' if food.veg else '🔴' }}</span>{{ 'Veg' if food.veg else 'Non-Veg' }}</div>
+            <div><span>💰</span>₹{{ food.price }}</div>
+        </div>
+
+        <div class="tag-row">
+            {% for t in food.tags %}<span class="tag-mini">{{ t }}</span>{% endfor %}
+        </div>
+
+        <h3>Description</h3>
+        <p>{{ description }}</p>
+
+        <h3>Ingredients</h3>
+        <ul class="ingredient-list">
+            {% for i in ingredients %}<li>{{ i.strip() }}</li>{% endfor %}
+        </ul>
+
+        <form method="POST" action="{{ url_for('add_to_cart', food_id=food.id) }}" class="add-cart-form">
+            <div class="qty-selector">
+                <button type="button" class="qty-btn" onclick="stepQty(-1)">−</button>
+                <input type="number" name="qty" id="qtyInput" value="1" min="1" max="10" readonly>
+                <button type="button" class="qty-btn" onclick="stepQty(1)">+</button>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Add to Cart — ₹<span id="qtyPrice">{{ food.price }}</span></button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const unitPrice = {{ food.price }};
+function stepQty(delta) {
+    const input = document.getElementById('qtyInput');
+    let val = parseInt(input.value) + delta;
+    val = Math.max(1, Math.min(10, val));
+    input.value = val;
+    document.getElementById('qtyPrice').textContent = val * unitPrice;
+}
+</script>
+{% endblock %}

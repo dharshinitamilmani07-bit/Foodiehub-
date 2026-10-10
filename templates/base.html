@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Foodie Hub{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/theme-forest-gold.css') }}">
+</head>
+<body>
+{% if session.get('user_id') %}
+<header class="topbar">
+    <a href="{{ url_for('home') }}" class="logo">FOODIE<span>HUB</span></a>
+    <nav class="topnav">
+        <a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint=='home' }}">Home</a>
+        <a href="{{ url_for('restaurants_list') }}" class="{{ 'active' if request.endpoint in ['restaurants_list','restaurant_detail'] }}">Restaurants</a>
+        <a href="{{ url_for('discover') }}" class="{{ 'active' if request.endpoint=='discover' }}">Discover</a>
+        <a href="{{ url_for('favorites') }}" class="{{ 'active' if request.endpoint=='favorites' }}">Favorites</a>
+        <a href="{{ url_for('order_history') }}" class="{{ 'active' if request.endpoint=='order_history' }}">Orders</a>
+        <a href="{{ url_for('profile') }}" class="{{ 'active' if request.endpoint=='profile' }}">Profile</a>
+    </nav>
+    <a href="{{ url_for('view_cart') }}" class="cart-btn">
+        Cart
+        {% if cart_count %}<span class="badge">{{ cart_count }}</span>{% endif %}
+    </a>
+</header>
+{% endif %}
+
+<main class="page {{ 'no-nav' if not session.get('user_id') }}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-wrap">
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+
+{% if session.get('user_id') %}
+<nav class="bottomnav">
+    <a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint=='home' }}">🏠<span>Home</span></a>
+    <a href="{{ url_for('restaurants_list') }}" class="{{ 'active' if request.endpoint in ['restaurants_list','restaurant_detail'] }}">🍴<span>Restaurants</span></a>
+    <a href="{{ url_for('discover') }}" class="{{ 'active' if request.endpoint=='discover' }}">🔎<span>Discover</span></a>
+    <a href="{{ url_for('view_cart') }}" class="{{ 'active' if request.endpoint=='view_cart' }}">🛒<span>Cart</span></a>
+    <a href="{{ url_for('order_history') }}" class="{{ 'active' if request.endpoint=='order_history' }}">🧾<span>Orders</span></a>
+    <a href="{{ url_for('profile') }}" class="{{ 'active' if request.endpoint=='profile' }}">👤<span>Profile</span></a>
+</nav>
+{% endif %}
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

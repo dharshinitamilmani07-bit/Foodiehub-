@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Sign In | Foodie Hub{% endblock %}
+{% block content %}
+<section class="auth-premium auth-v3">
+  <div class="auth-showcase">
+    <a class="auth-showcase-top" href="{{ url_for('login') }}"><span class="brand-mark">✦</span><span>FOODIE<span class="brand-hot">HUB</span></span></a>
+    <div class="showcase-copy">
+      <span class="eyebrow">YOUR NEXT FAVOURITE MEAL IS HERE</span>
+      <h1>Good food.<br><em>Good mood.</em><br>Every time.</h1>
+      <p>Find the flavours you love, discover local favourites, and get something delicious delivered.</p>
+      <div class="showcase-pills"><span>✦ Handpicked favourites</span><span>⚡ Easy ordering</span><span>♡ Made for foodies</span></div>
+    </div>
+    <div class="showcase-food" aria-hidden="true"><div class="food-photo"><img src="{{ url_for('static', filename='images/premium-food-hero.png') }}" alt="A delicious meal"></div><span class="floating-tag tag-one">Freshly picked ✨</span><span class="floating-tag tag-two">Happiness, served ♡</span></div>
+    <div class="showcase-footer">A little joy, delivered to your door.</div>
+  </div>
+  <div class="auth-panel auth-panel-v3"><div class="auth-panel-inner">
+    <div class="mobile-brand">FOODIE<span>HUB</span></div>
+    <div class="auth-icon">↗</div><span class="eyebrow">WELCOME BACK, FOODIE</span>
+    <h2>Let’s get you<br>something <span class="login-highlight">delicious.</span></h2>
+    <p class="auth-sub">Sign in to continue your food adventure.</p>
+    <form method="POST" class="auth-form">
+      <label>Email address<input type="email" name="email" placeholder="you@example.com" autocomplete="email" required></label>
+      <label>Password<input type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required></label>
+      <button type="submit" class="btn btn-primary btn-block auth-submit">Sign in to Foodie Hub <span>→</span></button>
+    </form>
+    <p class="auth-switch">New here? <a href="{{ url_for('register') }}">Create your account <span>↗</span></a></p>
+    <p class="auth-legal">By continuing, you agree to our Terms of Service and Privacy Policy.</p>
+  </div></div>
+</section>
+{% endblock %}

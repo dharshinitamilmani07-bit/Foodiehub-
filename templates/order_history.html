@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Order History — Foodie Hub{% endblock %}
+{% block content %}
+<h1 class="page-title">Order History</h1>
+
+{% if not orders %}
+<div class="empty-cart">
+    <p>No orders yet. Your first order is waiting to happen!</p>
+    <a href="{{ url_for('discover') }}" class="btn btn-primary">Discover Food</a>
+</div>
+{% else %}
+<div class="order-history-list">
+    {% for o in orders %}
+    <div class="history-card">
+        <div class="history-head">
+            <span>#FH{{ '%04d'|format(o.id) }}</span>
+            <span class="status-pill">{{ o.status }}</span>
+        </div>
+        <p class="history-date">{{ o.created_at }}</p>
+        <p class="history-items">{% for item in o.dishes %}{{ item.name }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+        <div class="history-foot">
+            <span class="price">₹{{ o.total }}</span>
+            <div class="history-actions">
+                <a href="{{ url_for('order_tracking', order_id=o.id) }}" class="btn btn-ghost btn-sm">Track</a>
+                <form method="POST" action="{{ url_for('reorder', order_id=o.id) }}">
+                    <button type="submit" class="btn btn-primary btn-sm">Reorder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

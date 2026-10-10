@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ restaurant.name }} — Foodie Hub{% endblock %}
+{% block content %}
+<div class="rest-hero">
+    <img src="{{ restaurant.image }}" alt="{{ restaurant.name }}" class="rest-hero-img">
+</div>
+
+<div class="rest-detail-head">
+    <h1>{{ restaurant.name }}</h1>
+    <p class="rest-cuisines">{{ restaurant.cuisines | join(', ') }} · {{ restaurant.area }}</p>
+    <div class="rest-detail-meta">
+        <span>⭐ {{ restaurant.rating }}</span>
+        <span>⏱ {{ restaurant.delivery_time_min }} min</span>
+        <span>₹{{ restaurant.cost_for_two }} for two</span>
+        {% if restaurant.is_pure_veg %}<span>🟢 Pure Veg</span>{% endif %}
+    </div>
+</div>
+
+<h3 class="menu-heading">Menu ({{ cards|length }} dishes)</h3>
+<div class="food-grid">
+    {% for f in cards %}
+    {% include "_food_card.html" %}
+    {% endfor %}
+</div>
+{% endblock %}

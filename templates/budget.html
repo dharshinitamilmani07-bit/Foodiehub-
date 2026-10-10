@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Budget Mode — Foodie Hub{% endblock %}
+{% block content %}
+<h1 class="page-title">Budget Mode 💰</h1>
+<p class="page-sub">Tell us your budget, we'll build the meal.</p>
+
+<div class="chip-row">
+    {% for b in budgets %}
+    <a class="chip chip-budget {{ 'chip-active' if amount == b else '' }}" href="{{ url_for('budget_mode', amount=b) }}">₹{{ b }}</a>
+    {% endfor %}
+</div>
+
+<form method="GET" class="budget-custom">
+    <input type="number" name="amount" placeholder="Or enter a custom amount" value="{{ amount or '' }}">
+    <button type="submit" class="btn btn-primary">Find Food</button>
+</form>
+
+{% if amount %}
+    {% if combos %}
+    <section class="section-block">
+        <h3>Combos within ₹{{ amount }}</h3>
+        <div class="combo-list">
+            {% for combo in combos %}
+            <div class="combo-card">
+                <div class="combo-items">
+                    {% for item in combo.dishes %}
+                    <span class="combo-item"><img src="{{ item.image }}" class="combo-thumb" alt="{{ item.name }}"> {{ item.name }} <b>₹{{ item.price }}</b></span>
+                    {% endfor %}
+                </div>
+                <div class="combo-total">Total: ₹{{ combo.total }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if singles %}
+    <section class="section-block">
+        <h3>Single dishes you can afford</h3>
+        <div class="food-grid">
+            {% for f in singles %}
+            {% include "_food_card.html" %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if not combos and not singles %}
+    <p class="empty-state">Nothing fits that budget yet — try a slightly higher amount.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

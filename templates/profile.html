@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Profile — Foodie Hub{% endblock %}
+{% block content %}
+<h1 class="page-title">Profile</h1>
+
+<div class="profile-card">
+    <div class="profile-avatar">{{ user['name'][0]|upper }}</div>
+    <h2>{{ user['name'] }}</h2>
+    <p>{{ user['email'] }} · {{ user['phone'] }}</p>
+
+    <div class="profile-stats">
+        <div><b>{{ order_count }}</b><span>Orders</span></div>
+        <div><b>{{ fav_count }}</b><span>Favorites</span></div>
+    </div>
+</div>
+
+<form method="POST" class="profile-form">
+    <h3>Saved Address</h3>
+    <textarea name="address" placeholder="Add your delivery address">{{ user['address'] or '' }}</textarea>
+    <button type="submit" class="btn btn-primary">Save Address</button>
+</form>
+
+<div class="profile-links">
+    <h3>Payment Methods</h3>
+    <div class="payment-methods-list">
+        <div class="payment-method-row">📱 UPI</div>
+        <div class="payment-method-row">💵 Cash on Delivery</div>
+    </div>
+
+    <h3>Quick Links</h3>
+    <a href="{{ url_for('favorites') }}" class="profile-link-row">❤️ Favorite Foods</a>
+    <a href="{{ url_for('order_history') }}" class="profile-link-row">🧾 Order History</a>
+</div>
+
+<a href="{{ url_for('logout') }}" class="btn btn-ghost btn-block logout-btn">Log Out</a>
+{% endblock %}

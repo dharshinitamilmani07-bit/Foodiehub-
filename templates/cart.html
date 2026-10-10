@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}My Cart — Foodie Hub{% endblock %}
+{% block content %}
+<h1 class="page-title">My Cart 🛒</h1>
+
+{% if not items %}
+<div class="empty-cart">
+    <p>Your cart is empty. Time to discover something delicious!</p>
+    <a href="{{ url_for('discover') }}" class="btn btn-primary">Discover Food</a>
+</div>
+{% else %}
+<div class="cart-list">
+    {% for item in items %}
+    <div class="cart-item">
+        <img src="{{ item.image }}" alt="{{ item.name }}" class="cart-item-img">
+        <div class="cart-item-info">
+            <h4>{{ item.name }}</h4>
+            <p>{{ item.restaurant }}</p>
+            <span class="price">₹{{ item.price }} each</span>
+        </div>
+        <form method="POST" action="{{ url_for('update_cart', food_id=item.id) }}" class="cart-qty-form">
+            <button type="submit" name="action" value="decrease" class="qty-btn">−</button>
+            <span>{{ item.qty }}</span>
+            <button type="submit" name="action" value="increase" class="qty-btn">+</button>
+        </form>
+        <div class="cart-item-total">₹{{ item.line_total }}</div>
+        <form method="POST" action="{{ url_for('update_cart', food_id=item.id) }}">
+            <button type="submit" name="action" value="remove" class="remove-btn">✕</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="cart-summary">
+    <div class="summary-row"><span>Subtotal</span><span>₹{{ subtotal }}</span></div>
+    <div class="summary-row"><span>Delivery Charge</span><span>{{ '₹' + delivery_fee|string if delivery_fee else 'FREE' }}</span></div>
+    {% if discount %}<div class="summary-row discount-row"><span>Discount</span><span>−₹{{ discount }}</span></div>{% endif %}
+    <div class="summary-row total-row"><span>Total</span><span>₹{{ total }}</span></div>
+    <a href="{{ url_for('checkout') }}" class="btn btn-primary btn-block">Proceed to Checkout</a>
+</div>
+{% endif %}
+{% endblock %}

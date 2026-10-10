@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Create Account | Foodie Hub{% endblock %}
+{% block content %}
+<style>
+/* Register page only — intentionally isolated from the rest of Foodie Hub. */
+.page.no-nav:has(.register-pro){padding:0;max-width:none;background:#f4faf6;min-height:100vh}
+.register-pro{min-height:100vh;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(420px,.96fr);background:#f5faf6;color:#163b2b;font-family:Inter,'Segoe UI',sans-serif}
+.register-pro *{box-sizing:border-box}
+.register-pro .register-visual{position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:38px clamp(28px,5vw,76px);color:#fff;background:linear-gradient(145deg,rgba(8,69,43,.88),rgba(10,105,62,.65) 52%,rgba(13,47,33,.72)),url("{{ url_for('static', filename='images/register-food.jpg') }}") center/cover no-repeat}
+.register-pro .register-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,35,22,.08),rgba(3,35,22,.35));pointer-events:none}
+.register-pro .brand,.register-pro .visual-copy,.register-pro .visual-foot{position:relative;z-index:1}
+.register-pro .brand{display:flex;align-items:center;gap:11px;font-size:22px;font-weight:850;letter-spacing:-.7px;color:#fff}
+.register-pro .brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#fff;color:#16834d;font-size:22px;font-weight:900;box-shadow:0 8px 24px #002f1e40}
+.register-pro .brand span:last-child{color:#b9f2cf}
+.register-pro .visual-copy{max-width:590px;margin:48px 0}
+.register-pro .eyebrow{display:inline-flex;align-items:center;gap:8px;color:#c6f4d5;font-size:11px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase}
+.register-pro .eyebrow:before{content:"";width:24px;height:2px;background:#a6e8bd;border-radius:2px}
+.register-pro .visual-copy h1{font-size:clamp(42px,5.1vw,70px);line-height:1.02;letter-spacing:-2.8px;margin:22px 0 18px;font-weight:850}
+.register-pro .visual-copy h1 em{font-style:normal;color:#baf0cc}
+.register-pro .visual-copy p{font-size:16px;line-height:1.8;max-width:430px;color:#e2f3e8;margin:0}
+.register-pro .visual-foot{font-size:12px;color:#d8f1e1;letter-spacing:.2px}
+.register-pro .register-side{display:flex;align-items:center;justify-content:center;padding:40px clamp(22px,5vw,76px);background:radial-gradient(circle at 100% 0%,#e0f5e7 0,transparent 36%),#f7fbf8}
+.register-pro .register-card{width:100%;max-width:440px;background:#fff;border:1px solid #e0eee5;border-radius:24px;padding:clamp(26px,3.2vw,42px);box-shadow:0 22px 70px rgba(21,91,54,.09)}
+.register-pro .mobile-brand{display:none}
+.register-pro .form-kicker{font-size:11px;letter-spacing:2px;font-weight:850;color:#16834d;text-transform:uppercase;margin-bottom:12px}
+.register-pro h2{margin:0;color:#153d2b;font-size:clamp(31px,3vw,39px);line-height:1.12;letter-spacing:-1.5px;font-weight:850}
+.register-pro .form-intro{margin:12px 0 27px;color:#718779;font-size:14px;line-height:1.65}
+.register-pro .auth-form{display:grid;gap:17px}
+.register-pro .auth-form label{display:grid;gap:8px;color:#294b39;font-size:12px;font-weight:750}
+.register-pro .auth-form input{width:100%;height:49px;border:1px solid #d9e8de;border-radius:11px;background:#fbfdfb;padding:0 14px;color:#183b2b;font:500 14px inherit;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.register-pro .auth-form input::placeholder{color:#9aada1}
+.register-pro .auth-form input:focus{border-color:#20975b;background:#fff;box-shadow:0 0 0 4px rgba(32,151,91,.11)}
+.register-pro .auth-submit{width:100%;height:51px;border:0;border-radius:12px;margin-top:5px;background:linear-gradient(100deg,#16834d,#27a861);color:#fff;font-size:14px;font-weight:800;box-shadow:0 9px 20px rgba(22,131,77,.18);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.register-pro .auth-submit:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(22,131,77,.24)}
+.register-pro .auth-switch{text-align:center;color:#75897d;font-size:13px;margin:23px 0 0}
+.register-pro .auth-switch a{color:#16834d;font-weight:800;text-decoration:none}
+.register-pro .auth-switch a:hover{text-decoration:underline}
+.register-pro .auth-legal{text-align:center;color:#9aa99f;font-size:10px;line-height:1.6;margin:20px 0 0}
+@media(max-width:850px){.register-pro{grid-template-columns:1fr}.register-pro .register-visual{min-height:290px;padding:24px 26px}.register-pro .visual-copy{margin:38px 0 20px}.register-pro .visual-copy h1{font-size:42px;letter-spacing:-1.8px;margin:14px 0 10px}.register-pro .visual-copy p{font-size:14px}.register-pro .visual-foot{display:none}.register-pro .register-side{padding:24px 16px 36px}.register-pro .register-card{max-width:520px;padding:28px 23px}.register-pro .brand{font-size:19px}.register-pro .brand-mark{width:36px;height:36px}}
+@media(max-width:420px){.register-pro .register-visual{min-height:255px}.register-pro .visual-copy h1{font-size:35px}.register-pro .register-card{border-radius:18px}.register-pro .form-intro{margin-bottom:22px}}
+</style>
+<section class="register-pro">
+  <div class="register-visual">
+    <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">F</span><span>FOODIE<span>HUB</span></span></a>
+    <div class="visual-copy">
+      <span class="eyebrow">GOOD FOOD, MADE SIMPLE</span>
+      <h1>Your next favourite<br><em>is on the menu.</em></h1>
+      <p>Discover great local food, keep your favourites close, and get the dishes you love delivered to your door.</p>
+    </div>
+    <div class="visual-foot">Fresh picks. Local favourites. Delivered with care.</div>
+  </div>
+  <div class="register-side">
+    <div class="register-card">
+      <div class="form-kicker">Join Foodie Hub</div>
+      <h2>Create your account<span style="color:#27a861">.</span></h2>
+      <p class="form-intro">Create an account to start ordering from your favourite places.</p>
+      <form method="POST" class="auth-form">
+        <label>Your name<input type="text" name="name" placeholder="Enter your full name" autocomplete="name" required></label>
+        <label>Email address<input type="email" name="email" placeholder="you@example.com" autocomplete="email" required></label>
+        <label>Phone number<input type="tel" name="phone" placeholder="10-digit mobile number" autocomplete="tel" required pattern="[0-9]{10}"></label>
+        <label>Create password<input type="password" name="password" placeholder="At least 4 characters" autocomplete="new-password" required minlength="4"></label>
+        <button type="submit" class="auth-submit">Create account <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Sign in →</a></p>
+      <p class="auth-legal">By creating an account, you agree to our Terms of Service and Privacy Policy.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

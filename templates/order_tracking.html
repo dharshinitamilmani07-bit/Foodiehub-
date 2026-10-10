@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Order Journey — Foodie Hub{% endblock %}
+{% block content %}
+<h1 class="page-title">Your order is on its way 🍽️</h1>
+
+<div class="tracking-card">
+    <div class="tracking-head">
+        <div>
+            <p class="tracking-label">Order ID</p>
+            <h3>#FH{{ '%04d'|format(order['id']) }}</h3>
+        </div>
+        <div>
+            <p class="tracking-label">Estimated Delivery</p>
+            <h3 id="etaDisplay">{{ order['eta_minutes'] }} min</h3>
+        </div>
+        <div>
+            <p class="tracking-label">Delivery Partner</p>
+            <h3>{{ order['delivery_person'] }}</h3>
+        </div>
+    </div>
+
+    <div class="journey-map">
+        <svg viewBox="0 0 600 60" class="journey-svg">
+            <line x1="30" y1="30" x2="570" y2="30" stroke="#e6e6e6" stroke-width="4"/>
+            <line id="journeyProgress" x1="30" y1="30" x2="30" y2="30" stroke="#16834d" stroke-width="4"/>
+            {% for i in range(6) %}
+            <circle id="node{{ i }}" cx="{{ 30 + i * 108 }}" cy="30" r="10" fill="#e6e6e6"/>
+            {% endfor %}
+        </svg>
+        <div class="rider-emoji" id="riderEmoji" style="left: 0%;">🛵</div>
+    </div>
+
+    <div class="journey-steps">
+        {% for step in steps %}
+        <div class="journey-step" id="step{{ loop.index0 }}">
+            <span class="step-dot"></span>
+            <span class="step-label">{{ step }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="journey-status-banner" id="statusBanner">
+        Status: <b>{{ order['status'] }}</b>
+    </div>
+
+    <div class="tracking-items">
+        <h3>Order Summary</h3>
+        {% for item in items %}
+        <div class="summary-row"><span>{{ item.name }} x{{ item.qty }}</span><span>₹{{ item.line_total }}</span></div>
+        {% endfor %}
+        <div class="summary-row total-row"><span>Total Paid</span><span>₹{{ order['total'] }}</span></div>
+    </div>
+
+    <a href="{{ url_for('order_history') }}" class="btn btn-ghost btn-block">View Order History</a>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const steps = {{ steps|tojson }};
+let currentIndex = steps.indexOf("{{ order['status'] }}");
+if (currentIndex < 0) currentIndex = 0;
+const orderId = {{ order['id'] }};
+
+function paintProgress(index) {
+    const totalSteps = steps.length;
+    for (let i = 0; i < totalSteps; i++) {
+        const stepEl = document.getElementById('step' + i);
+        const nodeEl = document.getElementById('node' + i);
+        if (i <= index) {
+            stepEl.classList.add('step-done');
+            nodeEl.setAttribute('fill', '#16834d');
+        }
+    }
+    const progressLine = document.getElementById('journeyProgress');
+    const x = 30 + index * 108;
+    progressLine.setAttribute('x2', x);
+    document.getElementById('riderEmoji').style.left = ((x / 600) * 100) + '%';
+    document.getElementById('statusBanner').innerHTML = 'Status: <b>' + steps[index] + '</b>';
+}
+
+paintProgress(currentIndex);
+
+function advance() {
+    if (currentIndex >= steps.length - 1) return;
+    fetch(`/api/order/${orderId}/advance`, { method: 'POST' })
+        .then(r => r.json())
+        .then(data => {
+            currentIndex = data.index;
+            paintProgress(currentIndex);
+            if (!data.done) {
+                setTimeout(advance, 4000);
+            }
+        });
+}
+
+if (currentIndex < steps.length - 1) {
+    setTimeout(advance, 4000);
+}
+</script>
+{% endblock %}

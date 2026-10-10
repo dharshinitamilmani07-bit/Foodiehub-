@@ -1,0 +1,35 @@
+/* Foodie Hub unified Forest Green + Champagne Gold theme */
+:root {
+  --bg:#071f19; --surface:#0b2b22; --surface-2:#12382b;
+  --primary:#d7b45a; --primary-dark:#b9973e; --accent:#f0d889; --accent-2:#2d7453;
+  --text:#f5f2e8; --text-dim:#b9c8bd; --border:#28513f;
+  --success:#8bcf9b; --radius-lg:22px; --radius-md:16px; --radius-sm:10px;
+  --shadow:0 12px 32px rgba(0,0,0,.24);
+}
+html, body { background:#071f19 !important; color:#f5f2e8 !important; }
+body { background: radial-gradient(ellipse at 80% 0%, #174936 0%, #0b2b22 38%, #061b16 100%) !important; }
+.topbar { background:rgba(5,27,21,.94) !important; border-color:#28513f !important; }
+.logo span, .topnav a.active, .topnav a:hover, .bottomnav a.active, .tagline, .see-all, .auth-switch a { color:#d7b45a !important; }
+.cart-btn, .btn-primary, .search-bar-wrap button, .chip:hover, .chip-active, .filter-active { background:linear-gradient(135deg,#c7a34b,#efd987) !important; color:#10271d !important; border-color:#d7b45a !important; box-shadow:0 7px 20px rgba(215,180,90,.18) !important; }
+.badge { background:#efd987 !important; color:#10271d !important; }
+.bottomnav { background:rgba(5,27,21,.97) !important; border-color:#28513f !important; }
+.page, main { color:#f5f2e8; }
+.greeting h1, .page-title, .section-block h3, .quick-cat span, .auth-form label { color:#f5f2e8 !important; }
+.greeting p, .rest-cuisines, .rest-card-meta, .rest-area, .caption, small { color:#b9c8bd !important; }
+.rest-card, .food-card, .order-card, .panel, .profile-card, .checkout-card, .detail-card, .quick-cat, .auth-card, .budget-card, .favorite-card { background:linear-gradient(145deg,rgba(18,56,43,.98),rgba(8,35,27,.98)) !important; color:#f5f2e8 !important; border-color:#28513f !important; box-shadow:0 10px 28px rgba(0,0,0,.18) !important; }
+.rest-card:hover, .food-card:hover, .quick-cat:hover { border-color:#d7b45a !important; box-shadow:0 12px 28px rgba(215,180,90,.12) !important; }
+.search-bar-wrap input, .auth-form input, input, select, textarea { background:#071f19 !important; color:#f5f2e8 !important; border-color:#38634f !important; }
+input::placeholder, textarea::placeholder { color:#91aa9a !important; }
+.auth-screen { background:radial-gradient(ellipse at 15% 20%,rgba(215,180,90,.10),transparent 42%),transparent !important; }
+.auth-card { background:rgba(8,35,27,.96) !important; border:1px solid #38634f !important; }
+.auth-form input:focus, .search-bar-wrap input:focus { outline:2px solid rgba(215,180,90,.20) !important; border-color:#d7b45a !important; }
+.chip, .filter-chip { background:#103629 !important; color:#e8e5d9 !important; border-color:#28513f !important; }
+.chip-budget.chip-active { background:#efd987 !important; color:#10271d !important; }
+.rest-rating { background:#173f2d !important; color:#efd987 !important; }
+.promoted-badge { background:#d7b45a !important; color:#10271d !important; }
+.flash-success { background:#123b2a !important; color:#bce8c2 !important; border-color:#34744d !important; }
+.flash-error { background:#48261f !important; color:#ffd1c6 !important; border-color:#8e4939 !important; }
+.splash-screen { background:radial-gradient(ellipse at 80% 0%,#174936 0%,#0b2b22 48%,#061b16 100%) !important; color:#f5f2e8 !important; }
+.splash-screen h1, .splash-screen h2, .splash-screen p { color:#f5f2e8 !important; }
+.splash-screen .btn-primary { color:#10271d !important; }
+hr { border-color:#28513f !important; }

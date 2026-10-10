@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Restaurants — Foodie Hub{% endblock %}
+{% block content %}
+<h1 class="page-title">Restaurants near you</h1>
+
+<form class="search-bar-wrap" method="GET">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search restaurants, cuisines, area...">
+    <button type="submit">🔍</button>
+    {% for key in active %}<input type="hidden" name="f" value="{{ key }}">{% endfor %}
+</form>
+
+<div class="filter-row">
+    {% set labels = {'pureveg': 'Pure Veg', 'fast30': 'Delivery under 30 min', 'ratinghigh': 'Rating 4.3+'} %}
+    {% for key, label in labels.items() %}
+    {% set new_active = active.copy() %}
+    {% if key in active %}
+        {% set _ = new_active.remove(key) %}
+    {% else %}
+        {% set _ = new_active.add(key) %}
+    {% endif %}
+    <a class="filter-chip {{ 'filter-active' if key in active else '' }}"
+       href="{{ url_for('restaurants_list', q=q, f=new_active|list) }}">{{ label }}</a>
+    {% endfor %}
+</div>
+
+<p class="result-count">{{ restaurants|length }} restaurant{{ 's' if restaurants|length != 1 else '' }} found</p>
+
+<div class="rest-grid">
+    {% for r in restaurants %}
+    {% include "_restaurant_card.html" %}
+    {% else %}
+    <p class="empty-state">No restaurants match that search.</p>
+    {% endfor %}
+</div>
+{% endblock %}

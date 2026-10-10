@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Favorites — Foodie Hub{% endblock %}
+{% block content %}
+<h1 class="page-title">Favorites ❤️</h1>
+
+{% if not cards %}
+<div class="empty-cart">
+    <p>No favorites yet. Tap the heart on any dish to save it here.</p>
+    <a href="{{ url_for('discover') }}" class="btn btn-primary">Discover Food</a>
+</div>
+{% else %}
+<div class="food-grid">
+    {% for f in cards %}
+    {% include "_food_card.html" %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

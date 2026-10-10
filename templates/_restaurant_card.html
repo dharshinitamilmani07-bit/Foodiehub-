@@ -1,0 +1,19 @@
+<a class="rest-card" href="{{ url_for('restaurant_detail', restaurant_id=r.id) }}">
+    <div class="rest-card-img-wrap">
+        <img src="{{ r.image }}" alt="{{ r.name }}" class="rest-card-img" loading="lazy">
+        {% if r.promoted %}<div class="promoted-badge">Promoted</div>{% endif %}
+        {% if r.is_pure_veg %}<div class="veg-badge">🟢 Pure Veg</div>{% endif %}
+    </div>
+    <div class="rest-card-body">
+        <div class="rest-card-top">
+            <h4>{{ r.name }}</h4>
+            <span class="rest-rating">⭐ {{ r.rating }}</span>
+        </div>
+        <p class="rest-cuisines">{{ r.cuisines | join(', ') }}</p>
+        <div class="rest-card-meta">
+            <span>⏱ {{ r.delivery_time_min }} min</span>
+            <span>₹{{ r.cost_for_two }} for two</span>
+        </div>
+        <p class="rest-area">{{ r.area }}</p>
+    </div>
+</a>

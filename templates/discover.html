@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Discover — Foodie Hub{% endblock %}
+{% block content %}
+<h1 class="page-title">Smart Food Discovery</h1>
+
+<form class="search-bar-wrap" method="GET">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search dishes, restaurants...">
+    <button type="submit">🔍</button>
+    {% for key in active %}<input type="hidden" name="f" value="{{ key }}">{% endfor %}
+</form>
+
+<div class="filter-row">
+    {% for key, label in filters %}
+    {% set new_active = active.copy() %}
+    {% if key in active %}
+        {% set _ = new_active.remove(key) %}
+    {% else %}
+        {% set _ = new_active.add(key) %}
+    {% endif %}
+    <a class="filter-chip {{ 'filter-active' if key in active else '' }}"
+       href="{{ url_for('discover', q=q, f=new_active|list) }}">{{ label }}</a>
+    {% endfor %}
+</div>
+
+<p class="result-count">{{ cards|length }} dish{{ 'es' if cards|length != 1 else '' }} found</p>
+
+<div class="food-grid">
+    {% for f in cards %}
+    {% include "_food_card.html" %}
+    {% else %}
+    <p class="empty-state">No dishes match those filters yet. Try loosening a filter!</p>
+    {% endfor %}
+</div>
+{% endblock %}

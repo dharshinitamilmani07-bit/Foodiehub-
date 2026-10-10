@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Home — Foodie Hub{% endblock %}
+{% block content %}
+<section class="greeting">
+    <h1>Hey {{ user['name'].split(' ')[0] }} 👋</h1>
+    <p>What are you craving today?</p>
+</section>
+
+<form action="{{ url_for('discover') }}" class="search-bar-wrap">
+    <input type="text" name="q" placeholder="Search dishes, restaurants...">
+    <button type="submit">🔍</button>
+</form>
+
+<section class="section-block">
+    <div class="section-head">
+        <h3>Restaurants near you</h3>
+        <a href="{{ url_for('restaurants_list') }}" class="see-all">See all →</a>
+    </div>
+    <div class="rest-grid">
+        {% for r in restaurants %}
+        {% include "_restaurant_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section-block">
+    <h3>Craving Mode</h3>
+    <div class="chip-row">
+        {% for m in moods %}
+        <a class="chip" href="{{ url_for('discover', f=m.key) }}">{{ m.label }}</a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section-block">
+    <h3>Budget Mode</h3>
+    <div class="chip-row">
+        {% for b in budgets %}
+        <a class="chip chip-budget" href="{{ url_for('budget_mode', amount=b) }}">₹{{ b }}</a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section-block">
+    <h3>Quick Categories</h3>
+    <div class="quick-cats">
+        <a href="{{ url_for('discover', f='ready20') }}" class="quick-cat"><img src="{{ url_for('static', filename='images/quick-bite.jpg') }}" alt="Quick Bite"><span>Quick Bite</span></a>
+        <a href="{{ url_for('discover', f='veg') }}" class="quick-cat"><img src="{{ url_for('static', filename='images/veg.jpg') }}" alt="Vegetarian food"><span>Veg</span></a>
+        <a href="{{ url_for('discover', f='nonveg') }}" class="quick-cat"><img src="{{ url_for('static', filename='images/non-veg.jpg') }}" alt="Non-vegetarian food"><span>Non-Veg</span></a>
+        <a href="{{ url_for('discover', f='popular') }}" class="quick-cat"><img src="{{ url_for('static', filename='images/popular.jpg') }}" alt="Popular food"><span>Popular</span></a>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="section-head">
+        <h3>Recommended For You</h3>
+        <a href="{{ url_for('discover') }}" class="see-all">See all →</a>
+    </div>
+    <div class="food-grid">
+        {% for f in recommended %}
+        {% include "_food_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+
+{% if recent_items %}
+<section class="section-block">
+    <h3>Recently Ordered</h3>
+    <div class="recent-row">
+        {% for item in recent_items %}
+        <div class="recent-pill">{{ item.name }}</div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

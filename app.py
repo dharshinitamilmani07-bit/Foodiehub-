@@ -663,7 +663,7 @@ def profile():
         cart_count=sum(get_cart().values()),
     )
 
+init_db()
 
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
